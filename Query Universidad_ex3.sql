@@ -1,0 +1,11 @@
+SELECT COUNT(*) FROM universidad.persona p WHERE p.tipo = "alumno";
+SELECT COUNT(*) FROM universidad.persona p WHERE YEAR(p.fecha_nacimiento) = 1999;
+SELECT COUNT(pr.id_departamento) AS professor_number, d.nombre FROM universidad.profesor pr JOIN universidad.departamento d ON d.id = pr.id_departamento GROUP BY pr.id_departamento ORDER BY professor_number ASC;
+SELECT COUNT(pr.id_departamento) AS professor_number, d.nombre FROM universidad.departamento d LEFT JOIN universidad.profesor pr ON d.id = pr.id_departamento GROUP BY d.nombre ORDER BY professor_number ASC ; 
+SELECT g.nombre, COUNT(a.id) AS asignatura_number FROM universidad.grado g LEFT JOIN universidad.asignatura a ON g.id = a.id_grado GROUP BY g.nombre ORDER BY asignatura_number DESC;
+SELECT * FROM (SELECT g.nombre, COUNT(a.id) AS asignatura_number FROM universidad.grado g LEFT JOIN universidad.asignatura a ON g.id = a.id_grado GROUP BY g.nombre ORDER BY asignatura_number DESC) as innerQuery WHERE asignatura_number >40;
+SELECT g.nombre as nombre_grau, a.tipo as tipo, SUM(a.creditos) FROM universidad.grado g JOIN universidad.asignatura a ON g.id = a.id_grado GROUP BY a.tipo, g.nombre;
+SELECT c.anyo_inicio, COUNT(p.id) FROM universidad.curso_escolar c JOIN universidad.alumno_se_matricula_asignatura m ON c.id = m.id_curso_escolar JOIN universidad.persona p ON p.id = m.id_alumno GROUP BY c.anyo_inicio;
+SELECT p.id, p.nombre, p.apellido1, p.apellido2, COUNT(a.id) as asignaturas FROM universidad.persona p LEFT JOIN universidad.profesor pr ON p.id = pr.id_profesor LEFT JOIN universidad.asignatura a ON pr.id_profesor = a.id_profesor GROUP BY p.id ORDER BY asignaturas DESC ;
+SELECT * FROM universidad.persona ORDER BY YEAR(fecha_nacimiento) DESC LIMIT 1;
+SELECT p.nombre, p.apellido1, p.apellido2, d.nombre as departamento, a.id as asignatura FROM universidad.persona p JOIN universidad.profesor pr ON p.id = pr.id_profesor JOIN universidad.departamento d ON d.id = pr.id_departamento LEFT JOIN universidad.asignatura a ON pr.id_profesor = a.id_profesor WHERE a.id IS NULL;
